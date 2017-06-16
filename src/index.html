@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.seo_title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="__sync_contentCategory" content="meterA">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="https://npmcdn.com/flickity@1.2/dist/flickity.pkgd.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flickity@1.2/dist/flickity.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <%= !json.project.embedded ? t.include("partials/_paywall.html") : t.include("partials/_embedframe.html") %>
+    <%= t.include("partials/_analytics.html") %>
+    <%= t.include("partials/_head.html") %>
+
+  </head>
+
+  <%= !json.project.embedded ? "<body>" : "<body is='responsive-body'>" %>
+
+    <%= t.include("partials/_nav.html") %>
+
+
+    <% var data = json.transchild_mainbar %>
+
+    <div id="mainbar">
+
+      
+   
+      
+      <div class="article">
+
+      
+        <div class="mainimage">
+          <img src="./assets/photos/main.jpg">
+          <div class="caption">James Kaplan, 8, (whose name has been changed at the request of his parents for privacy) gets hair advice from his father, Ben, as he gets ready for his first day of school in Berkeley.<span class="byline"> <%= data.main_image[0].Photographer %></span></div>
+          
+          <div class="header">
+            <h1 class="title"><%= data.Headline %></h1>
+            <div class="deck"><%= data.Deck %></div>     
+          </div>
+        </div>
+
+        <p class="date"><%= data.Date %> | By <a href="http://www.sfchronicle.com/author/ryan-kost/"><%= data.Reporter %></a></p>
+      <% json.transchild_mainbar['text'].forEach(function(text) { %>
+
+        <% if ( text.type == 'text' ){ %>
+
+          <p><%= text.value %></p>
+
+
+        <% } else if ( text.type == 'infobox' ){  %>
+
+          <%= t.include("partials/_infobox.html") %>
+
+
+        <% } else if ( text.type == 'image' ){ %>
+
+          <div class="<%= text.value[0].Size %>-img">
+            <img src="http://ww1.hdnux.com/photos/61/75/22/<%= text.value[0].Wcm_id %>/3/2000x0.jpg">
+            <div class="caption"><%= text.value[0].Caption %> <span class="byline"><%= text.value[0].Photographer %></span></div>
+          </div>
+
+        
+       
+
+
+        
+
+        <% } else if ( text.type == 'video' ){ %>
+
+
+         <div class="inline-img">
+            <div class='embed-container'>
+            <iframe src='http://player.vimeo.com/video/<%= text.value[0].Vimeo_id %>' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+            </div>
+            <div class="caption"><%= text.value[0].Caption %><span class="byline"> <%= text.value[0].Credit %></span></div>
+          </div>
+
+        <% } else if ( text.type == 'slideshow' ){ %>
+
+          <div class=" carousel slideshow js-flickity" data-flickity-options='{ "imagesLoaded": true, "pageDots": false }'>
+            <% text.value.forEach(function(slide) { %>
+
+             <div class="carousel-cell">
+              <img src="http://ww1.hdnux.com/photos/61/75/22/<%= slide.Wcm_id %>/3/premium_landscape.jpg">
+              <div class="caption"><%= slide.Caption %> <span class="byline"><%= slide.Photographer %></span></div>
+            </div>
+
+            <% }); %>
+
+          </div>
+
+        <% } %>
+
+         
+
+      <% }); %>
+
+      <%  if ( 'editors_note' ){  %>
+
+        <div class="editors-note">
+        <hr>
+        <h4>Editor's Note</h4>
+          <% json.transchild_mainbar['editors_note'].forEach(function(text) { %>
+            <p><%= text.value %></p>
+          <% });%>
+        </div>
+
+      <% } %>
+
+    </div>
+
+
+
+    </div>
+
+    <%= t.include("partials/_credits.html") %>
+    <%= t.include("partials/_footer.html") %>
+   
+    <script src="main.js" async></script>
+    <%= t.include("partials/_helloSFC.html") %>
+
+  </body>
+</html>

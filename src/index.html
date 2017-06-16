@@ -44,9 +44,13 @@
         <p class="date"><%= data.Date %> | By <a href="http://www.sfchronicle.com/author/ryan-kost/"><%= data.Reporter %></a></p>
       <% json.transchild_mainbar['text'].forEach(function(text) { %>
 
+        
+
         <% if ( text.type == 'text' ){ %>
 
-          <p><%= text.value %></p>
+
+          <p><% var text = text.value.replace("**","<i>").replace("*","</i>"); %>
+          <%= text %></p>
 
 
         <% } else if ( text.type == 'infobox' ){  %>
